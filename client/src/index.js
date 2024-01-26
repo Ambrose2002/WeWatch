@@ -1,23 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter} from "react-router-dom";
+import App from './App';
+import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import AuthWithClerk from './AuthWithClerk';
-
-if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
-}
-const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthWithClerk />
-    </BrowserRouter>
-  </React.StrictMode>
+	<React.StrictMode>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

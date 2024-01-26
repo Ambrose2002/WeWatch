@@ -1,19 +1,22 @@
-import { SignOutButton, SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"
- 
+import React from "react";
+import SignUp from "../components/SignUp";
+import Root from "../components/Root";
+
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+
+import "./App.css";
+
+const router = createBrowserRouter(createRoutesFromElements(
+	/* Wrap this Root Route to create Router here */
+	<Route path="/" element={<Root />}>
+		<Route path="sign-up" element={<SignUp />} />
+	</ Route>
+))
+
 function App() {
- 
-  return (
-    <div>
-      <SignedOut>
-        <SignInButton />
-        <p>This content is public. Only signed out users can see the SignInButton above this text.</p>
-      </SignedOut>
-      <SignedIn>
-        <SignOutButton afterSignOutUrl="/" />
-        <p>This content is private. Only signed in users can see the SignOutButton above this text.</p>
-      </SignedIn>
-    </div>
-  )
+	return (
+		<RouterProvider router={router} />
+	);
 }
- 
-export default App
+
+export default App;
