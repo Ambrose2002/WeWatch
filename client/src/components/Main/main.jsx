@@ -23,9 +23,9 @@ const Main = () => {
 
 				if (response.ok) {
 					const data = await response.json();
-					console.log(data)
+					// console.log(data)
 					setUserData(data.firstName);
-					console.log(data)
+					// console.log(data)
 				} else {
 					// Handle unauthorized or other errors
 					console.error('Error fetching user data:', response.statusText);

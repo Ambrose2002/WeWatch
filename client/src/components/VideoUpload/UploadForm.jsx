@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './uploadForm.css';
 
 const UploadForm = ({ onClose }) => {
-    console.log('form')
     const [videoTitle, setVideoTitle] = useState('');
     const [videoFile, setVideoFile] = useState(null);
 
@@ -14,12 +13,32 @@ const UploadForm = ({ onClose }) => {
         setVideoFile(e.target.files[0]);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Perform your video upload logic here
-        console.log('Video Title:', videoTitle);
-        console.log('Video File:', videoFile);
+        const formData = new FormData();
+        formData.append('title', videoTitle);
+        formData.append('video', videoFile);
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch('http://127.0.0.1:3001/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    Authorization: token,
+                },
+            });
+            if (response.ok) {
+                const res = await response.json();
+                console.log(res)
+            } else {
+                const res = await response.json();
+                alert(res.message);
+            }
+        } catch (error) {
+            alert("error uploading video")
+        }
 
         // Clear the form after submission
         setVideoTitle('');
@@ -36,12 +55,12 @@ const UploadForm = ({ onClose }) => {
                 <form onSubmit={handleSubmit}>
                     <label>
                         Video Title:
-                        <input type="text" className='video_title' value={videoTitle} onChange={handleTitleChange} />
+                        <input type="text" className='video_title' value={videoTitle} onChange={handleTitleChange} required/>
                     </label>
 
                     <label>
                         Choose a Video:
-                        <input type="file" accept="video/*" onChange={handleFileChange} />
+                        <input type="file" accept="video/*" onChange={handleFileChange} required/>
                     </label>
 
                     <button type="submit" className='upload_button'>Upload Video</button>

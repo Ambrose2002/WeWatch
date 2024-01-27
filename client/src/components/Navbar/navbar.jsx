@@ -12,12 +12,10 @@ const Navbar = (prop) => {
 
     const openModal = () => {
         setIsModalOpen(true);
-        console.log("opened")
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        console.log("closed")
     };
 
     return (
