@@ -3,7 +3,8 @@ const { User, signUpValidate } = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
-router.post("/sign-in", async (req, res) => {
+router.post("/signin", async (req, res) => {
+	console.log(req.body)
 	try {
 		const { error } = validate(req.body);
 		if (error)
@@ -21,13 +22,14 @@ router.post("/sign-in", async (req, res) => {
 			return res.status(401).send({ message: "Invalid Email or Password" });
 
 		const token = user.generateAuthToken();
-		res.status(200).send({ data: token, message: "logged in successfully" });
+		res.status(200).send({ data: token, id: user._id, message: "logged in successfully" });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });
 	}
 });
 
-router.post("/sign-up", async (req, res) => {
+router.post("/signup", async (req, res) => {
+	console.log(req.body)
 	try {
 		const { error } = signUpValidate(req.body);
 		if (error)
@@ -43,6 +45,7 @@ router.post("/sign-up", async (req, res) => {
 		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
 		await new User({ ...req.body, password: hashPassword }).save();
+		console.log({message: "User created successfully."})
 		res.status(201).send({ message: "User created successfully" });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });
